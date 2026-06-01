@@ -5,7 +5,7 @@ O objetivo é comparar o cenário de semáforos convencionais (Onda Verde gerada
 
 ---
 
-## 🚀 Como Rodar o Projeto
+## Como Rodar o Projeto
 
 ### Pré-requisitos
 Certifique-se de ter o Python instalado e de ter configurado o ambiente virtual:
@@ -30,12 +30,12 @@ venv\Scripts\python main.py --scenario rl --traffic random_peak --gui
 
 ---
 
-## 🎨 Visualização Personalizada (SUMO-GUI)
-Se você customizou a aparência do seu simulador (cores de ruas, tamanho de carros, heatmap de espera) e salvou o arquivo como **`viewsettings.xml`** dentro da pasta `simulations/`, o script `main.py` irá automaticamente injetar a sua arte visual sempre que a flag `--gui` for usada!
+## Visualização Personalizada (SUMO-GUI)
+O arquivo de configuração de visualização `viewsettings.xml` já se encontra na pasta `simulations/`. O script `main.py` carrega essa configuração automaticamente sempre que a flag `--gui` for usada.
 
 ---
 
-## 🚦 Onde Modificar os Algoritmos
+## Onde Modificar os Algoritmos
 
 A arquitetura foi projetada para ser modular. Se você quiser mexer no "cérebro" das simulações, procure os seguintes arquivos:
 
@@ -51,7 +51,7 @@ Se quiser mexer no algoritmo padrão de cruzamentos (Onda Verde):
 
 ---
 
-## 🚗 Como Modificar o Trânsito
+## Como Modificar o Trânsito
 
 Você pode criar dezenas de cenários de trânsito (ex: *madrugada*, *domingo*, *chuva*) e rodá-los sem precisar alterar os algoritmos. O roteamento fica totalmente desacoplado!
 
