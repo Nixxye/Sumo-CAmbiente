@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+
+    <vType id="carro" vClass="passenger" maxSpeed="16.7" accel="2.6" decel="4.5" sigma="0.5"/>
+
+    <!-- Fluxo principal SW -> NE ao longo da Av. Kennedy (beneficiado pela Onda Verde) -->
+    <flow id="kennedy_sw_ne" type="carro" begin="0" end="600" vehsPerHour="600"
+          from="1338768154" to="1483460388#3" via="-725981230 317977456#5 358276740 421377673#1 358276737#0 -1338768166#1 231807292#2 355724325#12 1290021183#4 1290021181#1 776123661#4" departLane="best" departSpeed="max"/>
+</routes>
