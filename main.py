@@ -6,9 +6,11 @@ def main():
     parser = argparse.ArgumentParser(description="SUMO Traffic Light Controller Evaluation and Integration")
     parser.add_argument(
         "--scenario", 
-        choices=["baseline", "rl"], 
+        choices=["baseline", "rl", "green_wave"], 
         required=True, 
-        help="Choose the scenario to run: 'baseline' (default SUMO logic) or 'rl' (trained Machine Learning agent)."
+        help="Choose the scenario to run: 'baseline' (default SUMO logic), "
+             "'rl' (trained Machine Learning agent) or 'green_wave' "
+             "(Onda Verde com offsets fixos na Av. Kennedy)."
     )
     parser.add_argument(
         "--traffic", 

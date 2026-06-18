@@ -8,7 +8,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 
 from src.rl.env import SumoTrafficEnv
 from stable_baselines3 import PPO
-
 def parse_tripinfo(tripinfo_file):
     if not os.path.exists(tripinfo_file):
         print(f"Warning: {tripinfo_file} not found.")
@@ -90,6 +89,34 @@ def run_evaluation(scenario, traffic, use_gui):
             
         env.close()
         
+
+    elif scenario == "green_wave":
+        # Importa o controlador de Onda Verde (em src/controllers/).
+        if base_dir not in sys.path:
+            sys.path.insert(0, base_dir)
+        from src.controllers.greenwave_controller import GreenWaveController
+
+        sumo_binary = "sumo-gui" if use_gui else "sumo"
+        cmd = [
+            sumo_binary,
+            "-n", net_file,
+            "-r", route_file,
+            "--tripinfo-output", tripinfo_file,
+            "--no-step-log", "true",
+            "--no-warnings", "true",
+            "--waiting-time-memory", "10000",
+        ]
+        print(f"Running GREEN WAVE simulation for traffic: {traffic}...")
+        traci.start(cmd)
+
+        controller = GreenWaveController(verbose=True)
+        controller.apply_offsets()  # aplica offsets fixos no início (t=0)
+
+        while traci.simulation.getMinExpectedNumber() > 0:
+            traci.simulationStep()
+            controller.collect_step_metrics()
+
+        traci.close()
     # Analyze results
     print("\n" + "="*40)
     print("--- Simulation Results ---")
