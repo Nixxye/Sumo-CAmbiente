@@ -82,19 +82,21 @@ def generate_statistical_analysis():
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
     fig.suptitle('Análise Estatística de Eficiência: Baseline vs Inteligência Artificial', fontsize=18, fontweight='bold')
     
-    # Gráfico 1: Ponto com Intervalo de Confiança 95%
-    # pointplot was warning about palette without hue and dodge, so we use line styles explicitly
-    sns.pointplot(data=df_all, x='Scenario', y='Waiting Time (s)', hue='Scenario', ax=axes[0], 
-                  errorbar=('ci', 95), capsize=.1, markers='D', palette="Set1", legend=False, dodge=False)
+    # Gráfico 1: Barplot com Intervalo de Confiança 95%
+    sns.barplot(data=df_all, x='Scenario', y='Waiting Time (s)', hue='Scenario', ax=axes[0], 
+                  errorbar=('ci', 95), capsize=.1, palette="Set1", legend=False)
     
-    # Remover as linhas de conexao do pointplot que poluem o visual
-    for line in axes[0].lines:
-        if len(line.get_xdata()) > 1:
-            line.set_visible(False)
+    # Adicionar os valores exatos no topo das barras
+    for container in axes[0].containers:
+        axes[0].bar_label(container, fmt='%.1f s', padding=3, fontweight='bold')
             
     axes[0].set_title('Média de Tempo Parado com Intervalo de Confiança (95%)', fontsize=14)
     axes[0].set_ylabel('Tempo de Espera (Segundos)')
     axes[0].set_xlabel('')
+    
+    # Ajustar eixo Y para dar espaço para a caixa de texto
+    max_wait = df_all['Waiting Time (s)'].mean() * 2.5
+    axes[0].set_ylim(0, max_wait)
     
     # Box com resumo estatístico no Gráfico 1
     stats_text = (

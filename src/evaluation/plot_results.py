@@ -68,18 +68,22 @@ def generate_report_and_plots():
     sns.barplot(data=df_all, x='Scenario', y='Waiting Time (s)', hue='Scenario', ax=axes[0,0], palette="viridis", legend=False)
     axes[0,0].set_title('Tempo Parado Médio por Carro')
     axes[0,0].set_ylabel('Segundos')
+    for container in axes[0,0].containers: axes[0,0].bar_label(container, fmt='%.1f', padding=3)
     
     sns.barplot(data=df_all, x='Scenario', y='Time Loss (s)', hue='Scenario', ax=axes[0,1], palette="magma", legend=False)
     axes[0,1].set_title('Tempo Total Perdido (Lentidão + Paradas)')
     axes[0,1].set_ylabel('Segundos')
+    for container in axes[0,1].containers: axes[0,1].bar_label(container, fmt='%.1f', padding=3)
     
     sns.barplot(data=df_all, x='Scenario', y='Duration (s)', hue='Scenario', ax=axes[1,0], palette="coolwarm", legend=False)
     axes[1,0].set_title('Duração Média da Viagem')
     axes[1,0].set_ylabel('Segundos')
+    for container in axes[1,0].containers: axes[1,0].bar_label(container, fmt='%.1f', padding=3)
     
     sns.barplot(data=df_all, x='Scenario', y='Waiting Count', hue='Scenario', ax=axes[1,1], palette="crest", legend=False)
     axes[1,1].set_title('Média de Paradas (Freia e Arranca)')
     axes[1,1].set_ylabel('Quantidade de Paradas')
+    for container in axes[1,1].containers: axes[1,1].bar_label(container, fmt='%.1f', padding=3)
     
     plt.tight_layout()
     plot_path = os.path.join(sim_dir, 'results_comparison.png')
