@@ -17,8 +17,12 @@ echo [3/4] Processando dados e gerando os graficos de barras...
 call venv\Scripts\python src\evaluation\plot_results.py
 
 echo.
-echo [4/4] Pintando os Mapas de Calor de Curitiba...
+echo [4/5] Pintando os Mapas de Calor de Curitiba...
 call venv\Scripts\python src\evaluation\plot_map.py
+
+echo.
+echo [5/5] Realizando Analise Estatistica e Intervalo de Confianca...
+call venv\Scripts\python src\evaluation\plot_stats.py
 
 echo.
 echo ========================================================
