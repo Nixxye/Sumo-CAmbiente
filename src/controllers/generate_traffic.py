@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-def generate_traffic(net_file="data/map/curitiba.net.xml", route_file="data/traffic/random_peak.rou.xml", end_time=3600, period=2):
+def generate_traffic(net_file="data/map/curitiba.net.xml", route_file="data/traffic/random_peak.rou.xml", end_time=3600, period=1.0):
     sumo_home = os.environ.get("SUMO_HOME")
     if not sumo_home:
         print("Error: SUMO_HOME environment variable not set. Please set it to your SUMO installation path.")

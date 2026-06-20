@@ -89,6 +89,10 @@ class SumoTrafficEnv(gym.Env):
         if self.tripinfo_file:
             self.sumo_cmd.extend(["--tripinfo-output", self.tripinfo_file])
             
+        gui_settings_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', 'simulations', 'viewsettings.xml')
+        if self.render_mode == "human" and os.path.exists(gui_settings_file):
+            self.sumo_cmd.extend(["--gui-settings-file", gui_settings_file])
+            
         traci.start(self.sumo_cmd, label=self.conn_label)
         self.conn = traci.getConnection(self.conn_label)
         

@@ -47,6 +47,7 @@ def run_evaluation(scenario, traffic, use_gui):
     tripinfo_file = os.path.join(base_dir, 'simulations', f'tripinfo_{scenario}_{traffic}.xml')
     
     if scenario == "baseline":
+        gui_settings_file = os.path.join(base_dir, 'simulations', 'viewsettings.xml')
         sumo_binary = "sumo-gui" if use_gui else "sumo"
         cmd = [
             sumo_binary,
@@ -56,6 +57,8 @@ def run_evaluation(scenario, traffic, use_gui):
             "--no-step-log", "true",
             "--no-warnings", "true"
         ]
+        if use_gui and os.path.exists(gui_settings_file):
+            cmd.extend(["--gui-settings-file", gui_settings_file])
         print(f"Running baseline simulation for traffic: {traffic}...")
         traci.start(cmd)
         
