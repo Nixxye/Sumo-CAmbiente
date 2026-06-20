@@ -45,7 +45,7 @@ def generate_report_and_plots():
     
     # --- ANÁLISE DETALHADA NO TERMINAL ---
     print("\n" + "="*50)
-    print("🚦 RELATÓRIO DE TRÁFEGO: TOMTOM PEAK HOUR")
+    print("RELATÓRIO DE TRÁFEGO: TOMTOM PEAK HOUR")
     print("="*50)
     
     summary = df_all.groupby('Scenario').agg({
