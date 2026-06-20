@@ -88,6 +88,8 @@ class SumoTrafficEnv(gym.Env):
             
         if self.tripinfo_file:
             self.sumo_cmd.extend(["--tripinfo-output", self.tripinfo_file])
+            edgedata_file = self.tripinfo_file.replace("tripinfo_", "edgedata_")
+            self.sumo_cmd.extend(["--edgedata-output", edgedata_file])
             
         gui_settings_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', '..', 'simulations', 'viewsettings.xml')
         if self.render_mode == "human" and os.path.exists(gui_settings_file):

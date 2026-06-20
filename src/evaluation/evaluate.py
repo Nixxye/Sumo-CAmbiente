@@ -45,6 +45,7 @@ def run_evaluation(scenario, traffic, use_gui):
         sys.exit(1)
         
     tripinfo_file = os.path.join(base_dir, 'simulations', f'tripinfo_{scenario}_{traffic}.xml')
+    edgedata_file = os.path.join(base_dir, 'simulations', f'edgedata_{scenario}_{traffic}.xml')
     
     if scenario == "baseline":
         gui_settings_file = os.path.join(base_dir, 'simulations', 'viewsettings.xml')
@@ -54,6 +55,7 @@ def run_evaluation(scenario, traffic, use_gui):
             "-n", net_file,
             "-r", route_file,
             "--tripinfo-output", tripinfo_file,
+            "--edgedata-output", edgedata_file,
             "--no-step-log", "true",
             "--no-warnings", "true"
         ]
