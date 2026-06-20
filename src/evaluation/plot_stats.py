@@ -86,9 +86,9 @@ def generate_statistical_analysis():
     sns.barplot(data=df_all, x='Scenario', y='Waiting Time (s)', hue='Scenario', ax=axes[0], 
                   errorbar=('ci', 95), capsize=.1, palette="Set1", legend=False)
     
-    # Adicionar os valores exatos no topo das barras
+    # Adicionar os valores exatos no centro das barras
     for container in axes[0].containers:
-        axes[0].bar_label(container, fmt='%.1f s', padding=3, fontweight='bold')
+        axes[0].bar_label(container, fmt='%.1f s', label_type='center', color='white', fontweight='bold', fontsize=12)
             
     axes[0].set_title('Média de Tempo Parado com Intervalo de Confiança (95%)', fontsize=14)
     axes[0].set_ylabel('Tempo de Espera (Segundos)')
