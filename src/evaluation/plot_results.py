@@ -15,13 +15,26 @@ def parse_tripinfo(filepath, scenario_name):
     
     data = []
     for trip in root.findall('tripinfo'):
+        emissions = trip.find('emissions')
+        if emissions is not None:
+            co2 = float(emissions.get('CO2_abs', 0)) / 1000
+            co = float(emissions.get('CO_abs', 0)) / 1000
+            nox = float(emissions.get('NOx_abs', 0)) / 1000
+            fuel = float(emissions.get('fuel_abs', 0)) / 1000
+        else:
+            co2 = co = nox = fuel = 0
+
         data.append({
             'Scenario': scenario_name,
             'Duration (s)': float(trip.get('duration', 0)),
             'Waiting Time (s)': float(trip.get('waitingTime', 0)),
             'Time Loss (s)': float(trip.get('timeLoss', 0)),
             'Route Length (m)': float(trip.get('routeLength', 0)),
-            'Waiting Count': int(trip.get('waitingCount', 0))
+            'Waiting Count': int(trip.get('waitingCount', 0)),
+            'CO2 (g)': co2,
+            'CO (g)': co,
+            'NOx (g)': nox,
+            'Fuel (g)': fuel
         })
         
     return pd.DataFrame(data)
@@ -123,10 +136,37 @@ def generate_report_and_plots():
     plt.savefig(scatter_path, dpi=300)
     plt.close()
     
+    # ---------------------------------------------------------
+    # 4. GRÁFICOS DE EMISSÕES DE GASES E CONSUMO
+    # ---------------------------------------------------------
+    fig4, axes4 = plt.subplots(1, 3, figsize=(18, 6))
+    fig4.suptitle('Impacto Ambiental: Emissão de Gases e Consumo', fontsize=16, fontweight='bold')
+    
+    sns.barplot(data=df_all, x='Scenario', y='CO2 (g)', hue='Scenario', ax=axes4[0], palette="Greens", legend=False)
+    axes4[0].set_title('Média de Emissão de CO2 por Veículo')
+    axes4[0].set_ylabel('Gramas (g)')
+    for container in axes4[0].containers: axes4[0].bar_label(container, fmt='%.1f', label_type='center', color='black', fontweight='bold')
+    
+    sns.barplot(data=df_all, x='Scenario', y='NOx (g)', hue='Scenario', ax=axes4[1], palette="Oranges", legend=False)
+    axes4[1].set_title('Média de Emissão de NOx por Veículo')
+    axes4[1].set_ylabel('Gramas (g)')
+    for container in axes4[1].containers: axes4[1].bar_label(container, fmt='%.1f', label_type='center', color='black', fontweight='bold')
+    
+    sns.barplot(data=df_all, x='Scenario', y='Fuel (g)', hue='Scenario', ax=axes4[2], palette="Blues", legend=False)
+    axes4[2].set_title('Consumo Médio de Combustível')
+    axes4[2].set_ylabel('Gramas (g)')
+    for container in axes4[2].containers: axes4[2].bar_label(container, fmt='%.1f', label_type='center', color='black', fontweight='bold')
+    
+    plt.tight_layout()
+    emissions_path = os.path.join(sim_dir, 'results_emissions.png')
+    plt.savefig(emissions_path, dpi=300)
+    plt.close()
+    
     print(f"Gráficos gerados com sucesso na pasta 'simulations/':")
     print(f"- {os.path.basename(plot_path)}")
     print(f"- {os.path.basename(dist_path)}")
     print(f"- {os.path.basename(scatter_path)}")
+    print(f"- {os.path.basename(emissions_path)}")
 
 if __name__ == "__main__":
     generate_report_and_plots()

@@ -78,7 +78,8 @@ class SumoTrafficEnv(gym.Env):
             sumo_binary, 
             "--no-step-log", "true",
             "--no-warnings", "true",
-            "--waiting-time-memory", "10000"
+            "--waiting-time-memory", "10000",
+            "--device.emissions.probability", "1"
         ]
         
         if self.sumocfg_path:

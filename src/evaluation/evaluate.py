@@ -57,7 +57,8 @@ def run_evaluation(scenario, traffic, use_gui):
             "--tripinfo-output", tripinfo_file,
             "--edgedata-output", edgedata_file,
             "--no-step-log", "true",
-            "--no-warnings", "true"
+            "--no-warnings", "true",
+            "--device.emissions.probability", "1"
         ]
         if use_gui and os.path.exists(gui_settings_file):
             cmd.extend(["--gui-settings-file", gui_settings_file])
