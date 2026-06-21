@@ -47,7 +47,7 @@ def generate_report_and_plots():
     file_rl = os.path.join(sim_dir, 'tripinfo_rl_tomtom_peak.xml')
     
     df_base = parse_tripinfo(file_baseline, 'Baseline (Onda Verde)')
-    df_rl = parse_tripinfo(file_rl, 'IA (Reinforcement Learning)')
+    df_rl = parse_tripinfo(file_rl, 'Aprendizado por Reforço')
     
     if df_base.empty or df_rl.empty:
         print("Erro: Os relatórios XML ainda não foram gerados. Rode as simulações primeiro.")

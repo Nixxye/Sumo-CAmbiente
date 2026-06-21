@@ -40,7 +40,7 @@ def generate_statistical_analysis():
     file_rl = os.path.join(sim_dir, 'tripinfo_rl_tomtom_peak.xml')
     
     df_base = parse_tripinfo(file_baseline, 'Baseline (Onda Verde)')
-    df_rl = parse_tripinfo(file_rl, 'IA (Reinforcement Learning)')
+    df_rl = parse_tripinfo(file_rl, 'Aprendizado por Reforço')
     
     if df_base.empty or df_rl.empty:
         print("Erro: Os relatorios XML nao foram encontrados.")
@@ -72,7 +72,7 @@ def generate_statistical_analysis():
     print("ANALISE ESTATISTICA DO TEMPO DE ESPERA")
     print("="*50)
     print(f"Baseline Media: {mean_base:.2f}s (IC 95%: {ci_base[0]:.2f}s - {ci_base[1]:.2f}s)")
-    print(f"IA RL Media   : {mean_rl:.2f}s (IC 95%: {ci_rl[0]:.2f}s - {ci_rl[1]:.2f}s)")
+    print(f"Aprendizado por Reforço Media: {mean_rl:.2f}s (IC 95%: {ci_rl[0]:.2f}s - {ci_rl[1]:.2f}s)")
     print(f"Mann-Whitney U p-value: {p_value:.2e}")
     print(f"Cohen's d (Tamanho do Efeito): {d_value:.2f}")
     print("="*50 + "\n")

@@ -117,7 +117,7 @@ def generate_maps():
         net_file, 
         rl_data, 
         os.path.join(sim_dir, 'map_heatmap_rl.png'), 
-        "Inteligencia Artificial RL (Horario de Pico TomTom)"
+        "Aprendizado por Reforço"
     )
 
 if __name__ == "__main__":
