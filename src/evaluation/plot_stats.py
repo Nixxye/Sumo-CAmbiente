@@ -80,7 +80,7 @@ def generate_statistical_analysis():
     # --- GRÁFICOS ---
     sns.set_theme(style="whitegrid")
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
-    fig.suptitle('Análise Estatística de Eficiência: Baseline vs Inteligência Artificial', fontsize=18, fontweight='bold')
+    fig.suptitle('Análise Estatística de Eficiência: Baseline vs Aprendizado por Reforço', fontsize=18, fontweight='bold')
     
     # Gráfico 1: Barplot com Intervalo de Confiança 95%
     sns.barplot(data=df_all, x='Scenario', y='Waiting Time (s)', hue='Scenario', ax=axes[0], 

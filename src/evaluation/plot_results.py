@@ -76,7 +76,7 @@ def generate_report_and_plots():
     # 1. GRÁFICOS DE BARRAS (MÉDIAS)
     # ---------------------------------------------------------
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    fig.suptitle('Comparativo de Performance Média: Baseline vs IA', fontsize=16, fontweight='bold')
+    fig.suptitle('Comparativo de Performance Média: Baseline vs Aprendizado por Reforço', fontsize=16, fontweight='bold')
     
     sns.barplot(data=df_all, x='Scenario', y='Waiting Time (s)', hue='Scenario', ax=axes[0,0], palette="viridis", legend=False)
     axes[0,0].set_title('Tempo Parado Médio por Carro')
