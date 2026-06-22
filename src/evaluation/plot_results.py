@@ -137,26 +137,50 @@ def generate_report_and_plots():
     plt.close()
     
     # ---------------------------------------------------------
-    # 4. GRÁFICOS DE EMISSÕES DE GASES E CONSUMO
+    # 4. GRÁFICOS DE EMISSÕES DE GASES E CONSUMO (% Redução)
     # ---------------------------------------------------------
-    fig4, axes4 = plt.subplots(1, 3, figsize=(18, 6))
-    fig4.suptitle('Impacto Ambiental: Emissão de Gases e Consumo', fontsize=16, fontweight='bold')
+    import scipy.stats as stats
+    import numpy as np
+
+    fig4, axes4 = plt.subplots(1, 3, figsize=(18, 7))
+    fig4.suptitle('Melhoria Ambiental e Consumo (Aprendizado por Reforço vs Baseline)', fontsize=16, fontweight='bold')
     
-    sns.barplot(data=df_all, x='Scenario', y='CO2 (g)', hue='Scenario', ax=axes4[0], palette="Greens", legend=False)
-    axes4[0].set_title('Média de Emissão de CO2 por Veículo')
-    axes4[0].set_ylabel('Gramas (g)')
-    for container in axes4[0].containers: axes4[0].bar_label(container, fmt='%.1f', label_type='center', color='black', fontweight='bold')
+    metrics = [
+        ('CO2 (g)', 'Dióxido de Carbono (CO2)', sns.color_palette("Greens")[4]),
+        ('NOx (g)', 'Óxidos de Nitrogênio (NOx)', sns.color_palette("Oranges")[4]),
+        ('Fuel (g)', 'Consumo de Combustível', sns.color_palette("Blues")[4])
+    ]
     
-    sns.barplot(data=df_all, x='Scenario', y='NOx (g)', hue='Scenario', ax=axes4[1], palette="Oranges", legend=False)
-    axes4[1].set_title('Média de Emissão de NOx por Veículo')
-    axes4[1].set_ylabel('Gramas (g)')
-    for container in axes4[1].containers: axes4[1].bar_label(container, fmt='%.1f', label_type='center', color='black', fontweight='bold')
-    
-    sns.barplot(data=df_all, x='Scenario', y='Fuel (g)', hue='Scenario', ax=axes4[2], palette="Blues", legend=False)
-    axes4[2].set_title('Consumo Médio de Combustível')
-    axes4[2].set_ylabel('Gramas (g)')
-    for container in axes4[2].containers: axes4[2].bar_label(container, fmt='%.1f', label_type='center', color='black', fontweight='bold')
-    
+    for i, (col, title, color) in enumerate(metrics):
+        base_data = df_all[df_all['Scenario'] == 'Baseline (Onda Verde)'][col]
+        rl_data = df_all[df_all['Scenario'] == 'Aprendizado por Reforço'][col]
+        
+        mean_base = base_data.mean()
+        mean_rl = rl_data.mean()
+        reduction_pct = ((mean_base - mean_rl) / mean_base) * 100
+        
+        stat, p_value = stats.mannwhitneyu(base_data, rl_data, alternative='two-sided')
+        ci_rl = stats.bootstrap((rl_data,), np.mean, confidence_level=0.95, method='percentile').confidence_interval
+        
+        axes4[i].bar([title], [reduction_pct], color=color)
+        axes4[i].set_ylim(0, max(reduction_pct * 1.5, 100))
+        if i == 0:
+            axes4[i].set_ylabel('Melhoria / Redução (%)', fontsize=12)
+        
+        # Valor percentual dentro da barra
+        for container in axes4[i].containers:
+            axes4[i].bar_label(container, fmt='%.1f%%', label_type='center', color='white', fontweight='bold', fontsize=16)
+            
+        # Caixa de texto com os dados estatísticos
+        stats_text = (f"Estatísticas Absolutas:\n"
+                      f"Baseline: {mean_base:.1f}g\n"
+                      f"Reforço: {mean_rl:.1f}g\n"
+                      f"IC 95%: [{ci_rl.low:.1f}g, {ci_rl.high:.1f}g]\n"
+                      f"Valor-p: {p_value:.2e}")
+        
+        axes4[i].text(0, reduction_pct + (axes4[i].get_ylim()[1] * 0.05), stats_text, ha='center', va='bottom', fontsize=11,
+                      bbox=dict(facecolor='#f8f9fa', alpha=0.9, edgecolor='gray', boxstyle='round,pad=0.5'))
+        
     plt.tight_layout()
     emissions_path = os.path.join(sim_dir, 'results_emissions.png')
     plt.savefig(emissions_path, dpi=300)
